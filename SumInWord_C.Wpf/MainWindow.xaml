@@ -84,7 +84,9 @@
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="16,0,0,0" VerticalAlignment="Bottom">
                 <Button Content="Convert" Command="{Binding ConvertCommand}" Width="100" Margin="0,0,0,4" />
-                <Button Content="Clear" Command="{Binding ClearCommand}" Width="100" />
+                <Button Content="Clear" Width="100"
+                        Command="{Binding ClearCommand}"  
+                        CommandParameter="{x:Static vm:ClearMode.FullClear}"/>
             </StackPanel>
         </StackPanel>
 
