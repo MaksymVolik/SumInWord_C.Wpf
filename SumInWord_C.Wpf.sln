@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9 d17.14
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SumInWord_C.Wpf", "SumInWord_C.Wpf\SumInWord_C.Wpf.csproj", "{0760B922-B291-4300-80D0-9E575EAC7618}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SumInWord_C.Wpf.Tests", "SumInWord_C.Wpf.Tests\SumInWord_C.Wpf.Tests.csproj", "{A110E319-C1ED-4880-9D2B-A8E02E3989CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0760B922-B291-4300-80D0-9E575EAC7618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0760B922-B291-4300-80D0-9E575EAC7618}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0760B922-B291-4300-80D0-9E575EAC7618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A110E319-C1ED-4880-9D2B-A8E02E3989CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A110E319-C1ED-4880-9D2B-A8E02E3989CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A110E319-C1ED-4880-9D2B-A8E02E3989CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A110E319-C1ED-4880-9D2B-A8E02E3989CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
