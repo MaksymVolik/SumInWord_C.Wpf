@@ -1,0 +1,124 @@
+<Window x:Class="SumInWord_C.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SumInWord_C.Wpf.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:behaviors="clr-namespace:SumInWord_C.Wpf.Behaviors"
+        mc:Ignorable="d"
+        Title="SumInWord WPF" Height="458" Width="653"
+        Closing="MainWindow_Closing">
+    <Window.DataContext>
+        <vm:SumViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+
+                    <Setter Property="ToolTip" 
+                 Value="{Binding RelativeSource={x:Static RelativeSource.Self}, 
+                                 Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+   
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+            <StackPanel>
+                <TextBlock Text="Сума без ПДВ" />
+                <TextBox Width="150" HorizontalContentAlignment="Right" 
+                         Text="{Binding Sum1Text, 
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=LostFocus,
+                                ValidatesOnDataErrors=True}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:NumericInputBehavior/>
+                    </i:Interaction.Behaviors>
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" 
+                                    Command="{Binding ConvertCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+                    
+            </StackPanel>
+            <StackPanel Margin="8,0,0,0">
+                <TextBlock Text="ПДВ" />
+                <TextBox Width="150" HorizontalContentAlignment="Right" 
+                         Text="{Binding Sum2Text, 
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=LostFocus,
+                                ValidatesOnDataErrors=True}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:NumericInputBehavior/>
+                    </i:Interaction.Behaviors>
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" 
+                                    Command="{Binding ConvertCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Margin="8,0,0,0">
+                <TextBlock Text="Разом" />
+                <TextBox Width="150" HorizontalContentAlignment="Right" 
+                         Text="{Binding Sum3Text, 
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=LostFocus,
+                                ValidatesOnDataErrors=True}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:NumericInputBehavior/>
+                    </i:Interaction.Behaviors>
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" 
+                                    Command="{Binding ConvertCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="16,0,0,0" VerticalAlignment="Bottom">
+                <Button Content="Convert" Command="{Binding ConvertCommand}" Width="100" Margin="0,0,0,4" />
+                <Button Content="Clear" Command="{Binding ClearCommand}" Width="100" />
+            </StackPanel>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,8,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Сума без ПДВ словами" />
+                <TextBox Text="{Binding ConvertedText1}" IsReadOnly="True" />
+                <TextBlock Text="ПДВ словами" Margin="0,8,0,0" />
+                <TextBox Text="{Binding ConvertedText2}" IsReadOnly="True" />
+                <TextBlock Text="Разом словами" Margin="0,8,0,0" />
+                <TextBox Text="{Binding ConvertedText3}" IsReadOnly="True" />
+                <TextBlock Text="Результат" Margin="0,8,0,0" />
+                <TextBox Text="{Binding ResultText}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="120" TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                <Button Content="Copy 1" Width="100" Margin="0,0,0,4"
+                        Command="{Binding CopyTextCommand}"  
+                        CommandParameter="{Binding ConvertedText1}"/>
+                <Button Content="Copy 2"  Width="100" Margin="0,0,0,4" 
+                        Command="{Binding CopyTextCommand}"
+                        CommandParameter="{Binding ConvertedText2}"/>
+                <Button Content="Copy 3" Width="100" Margin="0,0,0,4" 
+                        Command="{Binding CopyTextCommand}"
+                        CommandParameter="{Binding ConvertedText3}"/>
+                <Button Content="Copy Result" Width="100" 
+                        Command="{Binding CopyTextCommand}"
+                        CommandParameter="{Binding ResultText}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
