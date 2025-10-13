@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SumInWord_C.Wpf.BusinessLogic;
 using SumInWord_C.Wpf.Services;
 using System.Collections;
 using System.ComponentModel;
@@ -14,15 +13,17 @@ namespace SumInWord_C.Wpf.ViewModels
         FullClear,    // Очистити все (Виклик з кнопки UI)
         InputOnly     // Очистити лише поля введення та їх залежності (Виклик з OnSumXChanged)
     }
-    public partial class SumViewModel(IClipboardService clipboardService, INumberParserService numberParserService) : ObservableObject, INotifyDataErrorInfo
+    public partial class SumViewModel(IClipboardService clipboardService, INumberParserService numberParserService, IAmountToWordsService amountToWordsService) : ObservableObject, INotifyDataErrorInfo
     {
         private const decimal VatRate = 0.20m;
         private const byte DefaultLang = 1; // Ukrainian by default (1)
         private const string MoneyFormat = "#,###0.00 'грн.'";
 
         private readonly CultureInfo _culture = CultureInfo.CurrentCulture;
+
         private readonly INumberParserService _numberParserService = numberParserService ?? throw new ArgumentNullException(nameof(numberParserService));
         private readonly IClipboardService _clipboardService = clipboardService ?? throw new ArgumentNullException(nameof(clipboardService));
+        private readonly IAmountToWordsService _amountToWordsService = amountToWordsService ?? throw new ArgumentNullException(nameof(amountToWordsService));
 
         // Числові поля для розрахунків
         private decimal _sum1;
@@ -55,9 +56,7 @@ namespace SumInWord_C.Wpf.ViewModels
         private string convertedText3 = string.Empty;
         
         private readonly Dictionary<string, List<string>> _errors = [];
-
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
         public bool HasErrors => _errors.Count > 0;
 
         public IEnumerable GetErrors(string? propertyName)
@@ -67,7 +66,7 @@ namespace SumInWord_C.Wpf.ViewModels
         }
 
         // Для сумісності з XAML-дизайнером
-        public SumViewModel() : this(new ClipboardService(), new NumberParserService()) { }
+        public SumViewModel() : this(new ClipboardService(), new NumberParserService(), new AmountToWordsService()) { }
 
         partial void OnSum1TextChanged(string value)
         {
@@ -182,9 +181,9 @@ namespace SumInWord_C.Wpf.ViewModels
 
             var culture = CultureInfo.CurrentCulture;
 
-            var text1 = AmountConverter.ConvertAmountToWords(_sum1, DefaultLang);
-            var text2 = AmountConverter.ConvertAmountToWords(_sum2, DefaultLang);
-            var text3 = AmountConverter.ConvertAmountToWords(_sum3, DefaultLang);
+            var text1 = _amountToWordsService.ConvertAmountToWords(_sum1, DefaultLang);
+            var text2 = _amountToWordsService.ConvertAmountToWords(_sum2, DefaultLang);
+            var text3 = _amountToWordsService.ConvertAmountToWords(_sum3, DefaultLang);
 
             ConvertedText1 = text1;
             ConvertedText2 = text2;
