@@ -34,7 +34,7 @@ namespace SumInWord_C.Wpf.Tests
             if (!result)
             {
                 Assert.IsNotNull(error);
-                Assert.IsTrue(error!.Contains("Некоректний числовий формат"));
+                Assert.Contains("Некоректний числовий формат", error);
             }
         }
     }

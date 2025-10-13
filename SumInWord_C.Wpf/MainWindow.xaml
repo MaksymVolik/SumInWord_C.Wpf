@@ -7,11 +7,10 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:behaviors="clr-namespace:SumInWord_C.Wpf.Behaviors"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:SumViewModel, IsDesignTimeCreatable=True}"
         Title="SumInWord WPF" Height="458" Width="653"
         Closing="MainWindow_Closing">
-    <Window.DataContext>
-        <vm:SumViewModel />
-    </Window.DataContext>
+
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>

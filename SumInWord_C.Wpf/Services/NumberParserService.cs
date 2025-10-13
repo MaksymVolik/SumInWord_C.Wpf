@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using SumInWord_C.Wpf.Interfaces;
+using System.Globalization;
 
 namespace SumInWord_C.Wpf.Services
 {

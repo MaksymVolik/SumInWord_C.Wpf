@@ -1,4 +1,5 @@
 ﻿using SumInWord_C.Wpf.BusinessLogic;
+using SumInWord_C.Wpf.Interfaces;
 
 namespace SumInWord_C.Wpf.Services
 {

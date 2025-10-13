@@ -1,4 +1,4 @@
-using System;
+using SumInWord_C.Wpf.Interfaces;
 using System.Windows;
 
 namespace SumInWord_C.Wpf.Services

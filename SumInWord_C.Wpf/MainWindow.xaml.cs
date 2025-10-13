@@ -1,4 +1,6 @@
-﻿using SumInWord_C.Wpf.Properties;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SumInWord_C.Wpf.Properties;
+using SumInWord_C.Wpf.ViewModels;
 using System.Windows;
 
 namespace SumInWord_C.Wpf
@@ -37,6 +39,10 @@ namespace SumInWord_C.Wpf
                 // ініціалізуємо компоненти та дозволяємо WPF використовувати XAML-налаштування.
                 InitializeComponent();
                 MessageBox.Show($"Помилка завантаження налаштувань вікна. Використовуються стандартні параметри. Помилка: {ex.Message}", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally
+            {
+                DataContext = App.ServiceProvider.GetRequiredService<SumViewModel>();
             }
         }
 

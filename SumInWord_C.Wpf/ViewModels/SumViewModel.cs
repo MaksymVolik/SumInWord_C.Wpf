@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SumInWord_C.Wpf.Interfaces;
 using SumInWord_C.Wpf.Services;
 using System.Collections;
 using System.ComponentModel;

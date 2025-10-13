@@ -1,4 +1,4 @@
-namespace SumInWord_C.Wpf.Services
+namespace SumInWord_C.Wpf.Interfaces
 {
     public interface IAmountToWordsService
     {

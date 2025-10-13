@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SumInWord_C.Wpf.ViewModels;
 using SumInWord_C.Wpf.Services;
-using System;
+using SumInWord_C.Wpf.Interfaces;
 
 namespace SumInWord_C.Wpf.Tests
 {
@@ -23,7 +23,8 @@ namespace SumInWord_C.Wpf.Tests
             // Arrange
             var fakeClipboard = new FakeClipboardService();
             var parser = new NumberParserService();
-            var vm = new SumViewModel(fakeClipboard, parser);
+            var amountToWords = new AmountToWordsService();
+            var vm = new SumViewModel(fakeClipboard, parser, amountToWords);
             vm.ConvertedText1 = "тестовий текст";
 
             // Act

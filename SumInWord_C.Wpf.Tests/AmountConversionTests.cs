@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SumInWord_C.Wpf.BusinessLogic;
 
 namespace SumInWord_C.Wpf.Tests
