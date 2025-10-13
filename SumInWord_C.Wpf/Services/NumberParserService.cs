@@ -10,10 +10,11 @@ namespace SumInWord_C.Wpf.Services
             result = 0;
             if (string.IsNullOrWhiteSpace(value))
                 return true;
-
             // Видаляємо роздільники тисяч та уніфікуємо десятковий роздільник
-            string cleanedValue = value.Replace(CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator, string.Empty)
-                                       .Replace(',', '.');
+            string cleanedValue = value.Trim()
+                .Replace(" ", string.Empty)
+                .Replace(CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator, string.Empty)
+                .Replace(',', '.');
 
             if (!decimal.TryParse(cleanedValue, NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result))
             {

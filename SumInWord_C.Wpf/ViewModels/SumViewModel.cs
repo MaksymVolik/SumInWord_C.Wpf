@@ -53,7 +53,7 @@ namespace SumInWord_C.Wpf.ViewModels
 
         [ObservableProperty]
         private string convertedText3 = string.Empty;
-
+        
         private readonly Dictionary<string, List<string>> _errors = [];
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
