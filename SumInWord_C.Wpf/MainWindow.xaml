@@ -44,16 +44,19 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+
             <TextBlock Text="Конвертер" 
                        HorizontalAlignment="Left" 
                        Margin="30,0,0,0" 
                        FontSize="24" 
                        FontWeight="Medium" 
                        Foreground="{StaticResource AccentBrush}"/>
+
             <StackPanel Grid.Column="1" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
+
                 <Button Name="MinimizeButton" 
                         Content="&#xE921;" 
                         Click="MinimizeButton_Click"
@@ -177,7 +180,7 @@
                             Command="{Binding CopyTextCommand}"  
                             CommandParameter="{Binding ConvertedText2}"/>
                     <cc:PlaceHolderTextBox Grid.Row="2"
-                                           PlaceHolder="Загальна сума словами" 
+                                           PlaceHolder="Загальна сума словами"
                                            Style="{StaticResource ResultPlaceholderTextBoxStyle}"
                                            Text="{Binding ConvertedText3}"/>
                     <Button Grid.Row="2" 
@@ -185,7 +188,7 @@
                             Command="{Binding CopyTextCommand}"  
                             CommandParameter="{Binding ConvertedText3}"/>
                     <cc:PlaceHolderTextBox Grid.Row="3" 
-                                           PlaceHolder="Результат" 
+                                           PlaceHolder="Результат"
                                            VerticalContentAlignment="Top"
                                            PlaceholderVerticalAlignment="Top"
                                            AcceptsReturn="True" 
