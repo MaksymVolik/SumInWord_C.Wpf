@@ -35,7 +35,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="CustomTitleBar" Grid.Row="0" 
@@ -45,13 +45,20 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Конвертер" 
-                       HorizontalAlignment="Left" 
-                       Margin="30,0,0,0" 
-                       FontSize="24" 
-                       FontWeight="Medium" 
-                       Foreground="{StaticResource AccentBrush}"/>
-
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10, 0, 0, 0" VerticalAlignment="Center">
+                <Image Source="/AppIcon.ico" 
+                        Width="48" Height="48" 
+                        VerticalAlignment="Center"
+                        RenderOptions.BitmapScalingMode="Fant"  
+                        Margin="0, 0, 20, 0"/>
+                <TextBlock Text="Конвертер" 
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           FontSize="24" 
+                           FontWeight="Medium" 
+                           Foreground="{StaticResource AccentBrush}"/>
+            </StackPanel>
+            
             <StackPanel Grid.Column="1" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Right"
@@ -75,7 +82,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1" Margin="16,8,16,16">
+        <Grid Grid.Row="1" Margin="16,0,16,16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
