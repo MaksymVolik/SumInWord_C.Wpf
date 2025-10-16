@@ -6,120 +6,198 @@
         xmlns:vm="clr-namespace:SumInWord_C.Wpf.ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:behaviors="clr-namespace:SumInWord_C.Wpf.Behaviors"
+        xmlns:cc="clr-namespace:SumInWord_C.Wpf.CustomControls"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:SumViewModel, IsDesignTimeCreatable=True}"
-        Title="SumInWord WPF" Height="458" Width="653"
-        Closing="MainWindow_Closing">
+        Title="Конвертер" MinHeight="550" MinWidth="600"
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}"
+        Foreground="{StaticResource PrimaryTextBrush}"
+        Closing="MainWindow_Closing"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown" d:DesignHeight="550" d:DesignWidth="600">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" 
+                      GlassFrameThickness="0" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <Style TargetType="{x:Type TextBox}">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-
-                    <Setter Property="ToolTip" 
-                 Value="{Binding RelativeSource={x:Static RelativeSource.Self}, 
-                                 Path=(Validation.Errors)[0].ErrorContent}"/>
-                </Trigger>
-            </Style.Triggers>
+        <Style x:Key="ResultPlaceholderTextBoxStyle" TargetType="{x:Type cc:PlaceHolderTextBox}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="PlaceholderHorizontalAlignment" Value="Left"/>
+            <Setter Property="PlaceholderFontSize" Value="12"/>
+            <Setter Property="Padding" Value="4,4,30,4"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
     </Window.Resources>
-   
-    <Grid Margin="12">
+
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-            <StackPanel>
-                <TextBlock Text="Сума без ПДВ" />
-                <TextBox Width="150" HorizontalContentAlignment="Right" 
-                         Text="{Binding Sum1Text, 
-                                Mode=TwoWay,
-                                UpdateSourceTrigger=LostFocus,
-                                ValidatesOnDataErrors=True}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:NumericInputBehavior/>
-                    </i:Interaction.Behaviors>
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" 
-                                    Command="{Binding ConvertCommand}"/>
-                    </TextBox.InputBindings>
-                </TextBox>
-                    
-            </StackPanel>
-            <StackPanel Margin="8,0,0,0">
-                <TextBlock Text="ПДВ" />
-                <TextBox Width="150" HorizontalContentAlignment="Right" 
-                         Text="{Binding Sum2Text, 
-                                Mode=TwoWay,
-                                UpdateSourceTrigger=LostFocus,
-                                ValidatesOnDataErrors=True}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:NumericInputBehavior/>
-                    </i:Interaction.Behaviors>
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" 
-                                    Command="{Binding ConvertCommand}"/>
-                    </TextBox.InputBindings>
-                </TextBox>
-            </StackPanel>
-            <StackPanel Margin="8,0,0,0">
-                <TextBlock Text="Разом" />
-                <TextBox Width="150" HorizontalContentAlignment="Right" 
-                         Text="{Binding Sum3Text, 
-                                Mode=TwoWay,
-                                UpdateSourceTrigger=LostFocus,
-                                ValidatesOnDataErrors=True}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:NumericInputBehavior/>
-                    </i:Interaction.Behaviors>
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" 
-                                    Command="{Binding ConvertCommand}"/>
-                    </TextBox.InputBindings>
-                </TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="16,0,0,0" VerticalAlignment="Bottom">
-                <Button Content="Convert" Command="{Binding ConvertCommand}" Width="100" Margin="0,0,0,4" />
-                <Button Content="Clear" Width="100"
-                        Command="{Binding ClearCommand}"  
-                        CommandParameter="{x:Static vm:ClearMode.FullClear}"/>
-            </StackPanel>
-        </StackPanel>
-
-        <Grid Grid.Row="1" Margin="0,8,0,8">
+        <Grid x:Name="CustomTitleBar" Grid.Row="0" 
+            Background="Transparent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            <TextBlock Text="Конвертер" 
+                       HorizontalAlignment="Left" 
+                       Margin="30,0,0,0" 
+                       FontSize="24" 
+                       FontWeight="Medium" 
+                       Foreground="{StaticResource AccentBrush}"/>
+            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                <Button Name="MinimizeButton" 
+                        Content="&#xE921;" 
+                        Click="MinimizeButton_Click"
+                        Style="{StaticResource TitleBarButtonStyle}"/>
 
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="Сума без ПДВ словами" />
-                <TextBox Text="{Binding ConvertedText1}" IsReadOnly="True" />
-                <TextBlock Text="ПДВ словами" Margin="0,8,0,0" />
-                <TextBox Text="{Binding ConvertedText2}" IsReadOnly="True" />
-                <TextBlock Text="Разом словами" Margin="0,8,0,0" />
-                <TextBox Text="{Binding ConvertedText3}" IsReadOnly="True" />
-                <TextBlock Text="Результат" Margin="0,8,0,0" />
-                <TextBox Text="{Binding ResultText}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="120" TextWrapping="Wrap" />
-            </StackPanel>
+                <Button Name="MaximizeButton" 
+                        Content="&#xE922;"
+                        Click="MaximizeButton_Click"
+                        IsEnabled="False"
+                        Style="{StaticResource TitleBarButtonStyle}"/>
 
-            <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                <Button Content="Copy 1" Width="100" Margin="0,0,0,4"
-                        Command="{Binding CopyTextCommand}"  
-                        CommandParameter="{Binding ConvertedText1}"/>
-                <Button Content="Copy 2"  Width="100" Margin="0,0,0,4" 
-                        Command="{Binding CopyTextCommand}"
-                        CommandParameter="{Binding ConvertedText2}"/>
-                <Button Content="Copy 3" Width="100" Margin="0,0,0,4" 
-                        Command="{Binding CopyTextCommand}"
-                        CommandParameter="{Binding ConvertedText3}"/>
-                <Button Content="Copy Result" Width="100" 
-                        Command="{Binding CopyTextCommand}"
-                        CommandParameter="{Binding ResultText}"/>
+                <Button Name="CloseButton" 
+                        Content="&#xE8BB;"
+                        Click="CloseButton_Click"
+                        Style="{StaticResource CloseButtonStyle}"/>
             </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="16,8,16,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border BorderBrush="{StaticResource AccentBrush}" 
+                    BorderThickness="2" 
+                    CornerRadius="8" 
+                    Padding="16" 
+                    Background="{StaticResource SecondaryBackgroundBrush}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" >
+                        <cc:PlaceHolderTextBox PlaceHolder="Сума без ПДВ"
+                                               Margin="0,0,0,16"
+                                               Text="{Binding Sum1Text, 
+                                                   Mode=TwoWay,
+                                                   UpdateSourceTrigger=LostFocus,
+                                                   ValidatesOnDataErrors=True}">
+                            <cc:PlaceHolderTextBox.InputBindings>
+                                <KeyBinding Key="Enter" 
+                                                Command="{Binding ConvertCommand}"/>
+                            </cc:PlaceHolderTextBox.InputBindings>
+                            <i:Interaction.Behaviors>
+                                <behaviors:NumericInputBehavior/>
+                            </i:Interaction.Behaviors>
+                        </cc:PlaceHolderTextBox>
+
+                        <cc:PlaceHolderTextBox PlaceHolder="Сума ПДВ 20%"
+                                               Margin="0,0,0,16"
+                                               Text="{Binding Sum2Text, 
+                                                   Mode=TwoWay,
+                                                   UpdateSourceTrigger=LostFocus,
+                                                   ValidatesOnDataErrors=True}">
+                            <cc:PlaceHolderTextBox.InputBindings>
+                                <KeyBinding Key="Enter" 
+                                                Command="{Binding ConvertCommand}"/>
+                            </cc:PlaceHolderTextBox.InputBindings>
+                            <i:Interaction.Behaviors>
+                                <behaviors:NumericInputBehavior/>
+                            </i:Interaction.Behaviors>
+                        </cc:PlaceHolderTextBox>
+
+                        <cc:PlaceHolderTextBox PlaceHolder="Загальна сума"
+                                               Text="{Binding Sum3Text, 
+                                                   Mode=TwoWay,
+                                                   UpdateSourceTrigger=LostFocus,
+                                                   ValidatesOnDataErrors=True}">
+                            <cc:PlaceHolderTextBox.InputBindings>
+                                <KeyBinding Key="Enter" 
+                                                Command="{Binding ConvertCommand}"/>
+                            </cc:PlaceHolderTextBox.InputBindings>
+                            <i:Interaction.Behaviors>
+                                <behaviors:NumericInputBehavior/>
+                            </i:Interaction.Behaviors>
+                        </cc:PlaceHolderTextBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"  Orientation="Vertical" Margin="32,2,16,0">
+                        <Button Content="Конвертувати"
+                                Width="130" Height="36" Margin="0,0,0,16" 
+                                Command="{Binding ConvertCommand}" />
+                        <Button Content="Очистити"
+                                Width="130" Height="36"
+                                Command="{Binding ClearCommand}"  
+                                CommandParameter="{x:Static vm:ClearMode.FullClear}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!--Результат-->
+            <Border Grid.Row="1" BorderBrush="{StaticResource AccentBrush}" 
+                    Margin="0,16,0,0"
+                    BorderThickness="2" 
+                    CornerRadius="8" 
+                    Padding="16" 
+                    Background="{StaticResource SecondaryBackgroundBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <cc:PlaceHolderTextBox Grid.Row="0" 
+                                           PlaceHolder="Сума без ПДВ словами" 
+                                           Style="{StaticResource ResultPlaceholderTextBoxStyle}"
+                                           Text="{Binding ConvertedText1}"/>
+                    <Button Grid.Row="0" 
+                            Style="{StaticResource CopyButtonStyle}"
+                            Command="{Binding CopyTextCommand}"  
+                            CommandParameter="{Binding ConvertedText1}"/>
+                    <cc:PlaceHolderTextBox Grid.Row="1" Grid.Column="0"
+                                           PlaceHolder="ПДВ словами"
+                                           Style="{StaticResource ResultPlaceholderTextBoxStyle}"
+                                           Text="{Binding ConvertedText2}"/>
+                    <Button Grid.Row="1" 
+                            Style="{StaticResource CopyButtonStyle}"
+                            Command="{Binding CopyTextCommand}"  
+                            CommandParameter="{Binding ConvertedText2}"/>
+                    <cc:PlaceHolderTextBox Grid.Row="2"
+                                           PlaceHolder="Загальна сума словами" 
+                                           Style="{StaticResource ResultPlaceholderTextBoxStyle}"
+                                           Text="{Binding ConvertedText3}"/>
+                    <Button Grid.Row="2" 
+                            Style="{StaticResource CopyButtonStyle}"
+                            Command="{Binding CopyTextCommand}"  
+                            CommandParameter="{Binding ConvertedText3}"/>
+                    <cc:PlaceHolderTextBox Grid.Row="3" 
+                                           PlaceHolder="Результат" 
+                                           VerticalContentAlignment="Top"
+                                           PlaceholderVerticalAlignment="Top"
+                                           AcceptsReturn="True" 
+                                           VerticalScrollBarVisibility="Auto"
+                                           Style="{StaticResource ResultPlaceholderTextBoxStyle}"
+                                           Text="{Binding ResultText}"/>
+                    <Button Grid.Row="3" 
+                            Style="{StaticResource CopyButtonStyle}"
+                            Command="{Binding CopyTextCommand}"  
+                            CommandParameter="{Binding ResultText}"/>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Window>

@@ -49,7 +49,7 @@ namespace SumInWord_C.Wpf.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("653")]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
         public double WindowWidth {
             get {
                 return ((double)(this["WindowWidth"]));
@@ -61,7 +61,7 @@ namespace SumInWord_C.Wpf.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("458")]
+        [global::System.Configuration.DefaultSettingValueAttribute("550")]
         public double WindowHeight {
             get {
                 return ((double)(this["WindowHeight"]));
