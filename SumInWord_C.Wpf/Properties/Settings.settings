@@ -9,13 +9,13 @@
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="WindowWidth" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">653</Value>
+      <Value Profile="(Default)">600</Value>
     </Setting>
     <Setting Name="WindowHeight" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">458</Value>
+      <Value Profile="(Default)">550</Value>
     </Setting>
-	<Setting Name="WindowState" Type="System.Windows.WindowState" Scope="User">
-	  <Value Profile="(Default)">Normal</Value>
-	</Setting>
+    <Setting Name="WindowState" Type="System.Windows.WindowState" Scope="User">
+      <Value Profile="(Default)">Normal</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

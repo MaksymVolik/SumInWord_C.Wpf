@@ -2,6 +2,7 @@
 using SumInWord_C.Wpf.Properties;
 using SumInWord_C.Wpf.ViewModels;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SumInWord_C.Wpf
 {
@@ -93,6 +94,35 @@ namespace SumInWord_C.Wpf
             {
                 MessageBox.Show($"Помилка збереження налаштувань вікна: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                MaximizeButton.Content = "⬜";
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                MaximizeButton.Content = "❐";
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
 
     }
