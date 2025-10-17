@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:SumViewModel, IsDesignTimeCreatable=True}"
         Title="Конвертер" MinHeight="550" MinWidth="600"
-        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" WindowStartupLocation="Manual"
         Background="{StaticResource BackgroundBrush}"
         Foreground="{StaticResource PrimaryTextBrush}"
         Closing="MainWindow_Closing"

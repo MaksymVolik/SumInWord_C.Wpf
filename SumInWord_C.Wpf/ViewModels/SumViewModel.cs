@@ -5,6 +5,7 @@ using SumInWord_C.Wpf.Services;
 using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Windows;
 
 namespace SumInWord_C.Wpf.ViewModels
@@ -209,14 +210,103 @@ namespace SumInWord_C.Wpf.ViewModels
         {
             if (string.IsNullOrEmpty(textToCopy))
                 return;
+            
             try
             {
                 _clipboardService.SetText(textToCopy);
+                // Якщо дійшли сюди - копіювання успішне (сервіс сам перевірив)
             }
             catch (Exception ex)
             {
-                // Можна додати логування через ILogger
-                MessageBox.Show("Не вдалося скопіювати у буфер обміну.\n" + ex.Message, "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // Якщо винятоккинуто - копіювання дійсно не вдалося
+                LogClipboardError(ex, textToCopy);
+
+                string userMessage = "Не вдалося скопіювати у буфер обміну.\n\n" +
+                                   "Можливі причини:\n" +
+                                   "• Інша програма блокує буфер обміну\n" +
+                                   "• Менеджер буфера обміну (Ditto, ClipX)\n" +
+                                   "• Віддалений робочий стіл (RDP)\n" +
+                                   "• Антивірус з моніторингом буфера\n\n" +
+                                   "Спробуйте:\n" +
+                                   "1. Закрити програми, що працюють з буфером\n" +
+                                   "2. Перезапустити процес rdpclip.exe (якщо RDP)\n" +
+                                   "3. Скопіювати вручну (Ctrl+C)";
+
+                MessageBox.Show(userMessage, "Помилка буфера обміну", 
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void LogClipboardError(Exception ex, string textToCopy)
+        {
+            try
+            {
+                string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string logFilePath = Path.Combine(appDirectory, "clipboard_errors.log");
+
+                var logEntry = new System.Text.StringBuilder();
+                logEntry.AppendLine($"==========================================");
+                logEntry.AppendLine($"Дата та час: {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
+                logEntry.AppendLine($"Тип помилки: {ex.GetType().FullName}");
+                logEntry.AppendLine($"Повідомлення: {ex.Message}");
+                logEntry.AppendLine($"StackTrace: {ex.StackTrace}");
+                
+                // Детальна інформація про ExternalException
+                if (ex is System.Runtime.InteropServices.ExternalException externalEx)
+                {
+                    logEntry.AppendLine($"HRESULT код: 0x{externalEx.ErrorCode:X8}");
+                }
+                
+                if (ex.InnerException != null)
+                {
+                    logEntry.AppendLine($"Внутрішній виняток: {ex.InnerException.GetType().FullName}");
+                    logEntry.AppendLine($"Повідомлення: {ex.InnerException.Message}");
+                    
+                    if (ex.InnerException is System.Runtime.InteropServices.ExternalException innerExternalEx)
+                    {
+                        logEntry.AppendLine($"Внутрішній HRESULT код: 0x{innerExternalEx.ErrorCode:X8}");
+                    }
+                }
+
+                // Системна інформація
+                logEntry.AppendLine($"ОС: {Environment.OSVersion}");
+                logEntry.AppendLine($"Версія .NET: {Environment.Version}");
+                logEntry.AppendLine($"Ім'я комп'ютера: {Environment.MachineName}");
+                logEntry.AppendLine($"Ім'я користувача: {Environment.UserName}");
+                logEntry.AppendLine($"64-бітна ОС: {Environment.Is64BitOperatingSystem}");
+                logEntry.AppendLine($"64-бітний процес: {Environment.Is64BitProcess}");
+                logEntry.AppendLine($"Інтерактивний режим: {Environment.UserInteractive}");
+                
+                // Перевірка доступу до буфера обміну
+                try
+                {
+                    var clipboardOwner = Clipboard.GetDataObject();
+                    logEntry.AppendLine($"Буфер обміну доступний: Так");
+                    logEntry.AppendLine($"Формати в буфері: {string.Join(", ", clipboardOwner?.GetFormats() ?? Array.Empty<string>())}");
+                    
+                    if (Clipboard.ContainsText())
+                    {
+                        string currentClipboard = Clipboard.GetText();
+                        logEntry.AppendLine($"Поточний текст у буфері (перші 100 символів): {(currentClipboard.Length > 100 ? currentClipboard.Substring(0, 100) : currentClipboard)}");
+                        logEntry.AppendLine($"Текст співпадає з очікуваним: {currentClipboard == textToCopy}");
+                    }
+                }
+                catch (Exception clipEx)
+                {
+                    logEntry.AppendLine($"Буфер обміну доступний: Ні ({clipEx.Message})");
+                }
+                
+                logEntry.AppendLine($"Довжина тексту для копіювання: {textToCopy?.Length ?? 0} символів");
+                logEntry.AppendLine($"Перші 100 символів: {(textToCopy?.Length > 100 ? textToCopy.Substring(0, 100) : textToCopy)}");
+                
+                logEntry.AppendLine($"==========================================");
+                logEntry.AppendLine();
+
+                File.AppendAllText(logFilePath, logEntry.ToString());
+            }
+            catch
+            {
+                // Ігноруємо помилки логування
             }
         }
 
