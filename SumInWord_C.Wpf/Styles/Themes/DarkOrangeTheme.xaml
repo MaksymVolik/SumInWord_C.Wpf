@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Темна тема з оранжевим акцентом -->
+
+	<Color x:Key="PrimaryTextColor">#F4F6F9</Color>
+	<Color x:Key="SecondaryTextColor">#AAAAAA</Color>
+	<Color x:Key="AccentColor">#FF8C00</Color>
+	<Color x:Key="AccentColorHover">#E57E00</Color>
+	<Color x:Key="AccentColorPressed">#CC7000</Color>
+	<Color x:Key="BackgroundColor">#000000</Color>
+	<Color x:Key="SecondaryBackgroundColor">#1A1A1A</Color>
+	<Color x:Key="ErrorColor">#FF5C77</Color>
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="{StaticResource PrimaryTextColor}"/>
+	<SolidColorBrush x:Key="SecondaryTextBrush" Color="{StaticResource SecondaryTextColor}"/>
+	<SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+	<SolidColorBrush x:Key="AccentHoverBrush" Color="{StaticResource AccentColorHover}"/>
+	<SolidColorBrush x:Key="AccentPressedBrush" Color="{StaticResource AccentColorPressed}"/>
+	<SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+	<SolidColorBrush x:Key="SecondaryBackgroundBrush" Color="{StaticResource SecondaryBackgroundColor}"/>
+	<SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
+</ResourceDictionary>

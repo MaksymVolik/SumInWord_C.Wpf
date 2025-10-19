@@ -3,15 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:CC="clr-namespace:SumInWord_C.Wpf.CustomControls">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Colors.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-    
     <Style TargetType="{x:Type CC:PlaceHolderTextBox}">
-        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
-        <Setter Property="CaretBrush" Value="{StaticResource PrimaryTextBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource SecondaryBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundBrush}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Cursor" Value="IBeam" />
         <Setter Property="Padding" Value="5" />
@@ -56,7 +52,7 @@
                                 FontFamily="{TemplateBinding FontFamily}"
                                 FontSize="{TemplateBinding PlaceholderFontSize}"
                                 FontWeight="{TemplateBinding FontWeight}"
-                                Foreground="{StaticResource SecondaryTextBrush}"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
                                 Text="{TemplateBinding PlaceHolder}"
                                 Visibility="Collapsed" />
                         </Grid>
@@ -72,23 +68,23 @@
                         <!--  || Hover Effect ||  -->
                         <!--  || Focus Effect ||  -->
                         <Trigger Property="IsFocused" Value="False">
-                            <Setter TargetName="_Border" Property="BorderBrush" Value="{StaticResource SecondaryBackgroundBrush}"/>
+                            <Setter TargetName="_Border" Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundBrush}"/>
                             <Setter TargetName="_Border" Property="BorderThickness" Value="1"/>
                             <Setter TargetName="_Border" Property="Margin" Value="1"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="_Border" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            <Setter TargetName="_Border" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
                             <Setter TargetName="_Border" Property="BorderThickness" Value="2"/>
                             <Setter TargetName="_Border" Property="Margin" Value="0"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="_Border" Property="BorderBrush" Value="{StaticResource AccentHoverBrush}" />
+                            <Setter TargetName="_Border" Property="BorderBrush" Value="{DynamicResource AccentHoverBrush}" />
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">
                             <Setter Property="ToolTip" 
                                     Value="{Binding RelativeSource={x:Static RelativeSource.Self}, 
                                             Path=(Validation.Errors)[0].ErrorContent}"/>
-                            <Setter TargetName="_Border" Property="BorderBrush" Value="{StaticResource ErrorBrush}"/>
+                            <Setter TargetName="_Border" Property="BorderBrush" Value="{DynamicResource ErrorBrush}"/>
                             <Setter TargetName="_Border" Property="BorderThickness" Value="2"/>
                             <Setter TargetName="_Border" Property="Margin" Value="0"/>
                         </Trigger>

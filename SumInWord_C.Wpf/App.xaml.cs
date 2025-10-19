@@ -21,9 +21,14 @@ namespace SumInWord_C.Wpf
             services.AddSingleton<IClipboardService, ClipboardService>();
             services.AddSingleton<INumberParserService, NumberParserService>();
             services.AddSingleton<IAmountToWordsService, AmountToWordsService>();
+            services.AddSingleton<IThemeService, ThemeService>(); // Додали ThemeService
             services.AddTransient<SumViewModel>();
 
             ServiceProvider = services.BuildServiceProvider();
+
+            // Завантажуємо збережену тему перед показом головного вікна
+            var themeService = ServiceProvider.GetRequiredService<IThemeService>();
+            themeService.LoadSavedTheme();
 
             base.OnStartup(e);
         }

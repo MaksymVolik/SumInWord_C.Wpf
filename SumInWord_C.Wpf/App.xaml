@@ -1,15 +1,18 @@
 ﻿<Application x:Class="SumInWord_C.Wpf.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SumInWord_C.Wpf"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/Colors.xaml"/>
-                <ResourceDictionary Source="/Styles/ButtonStyles.xaml"/>
-                <ResourceDictionary Source="/Styles/ScrollBarStyle.xaml"/>
-                <ResourceDictionary Source="/Styles/ToolTipStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Themes/DarkTheme.xaml"/>
+                <!-- Тема буде завантажена динамічно -->
+                <ResourceDictionary Source="Styles/PlaceHolderTextBoxStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="Styles/ToolTipStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ScrollBarStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Icons.xaml"/>
+                <!-- Інші стилі... -->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

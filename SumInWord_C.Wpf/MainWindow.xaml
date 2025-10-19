@@ -11,8 +11,8 @@
         d:DataContext="{d:DesignInstance Type=vm:SumViewModel, IsDesignTimeCreatable=True}"
         Title="Конвертер" MinHeight="550" MinWidth="600"
         WindowStyle="None" WindowStartupLocation="Manual"
-        Background="{StaticResource BackgroundBrush}"
-        Foreground="{StaticResource PrimaryTextBrush}"
+        Background="{DynamicResource BackgroundBrush}"
+        Foreground="{DynamicResource PrimaryTextBrush}"
         Closing="MainWindow_Closing"
         MouseLeftButtonDown="Window_MouseLeftButtonDown" d:DesignHeight="550" d:DesignWidth="600">
 
@@ -22,7 +22,9 @@
     </WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <Style x:Key="ResultPlaceholderTextBoxStyle" TargetType="{x:Type cc:PlaceHolderTextBox}">
+        <Style x:Key="ResultPlaceholderTextBoxStyle" 
+               TargetType="{x:Type cc:PlaceHolderTextBox}"
+               BasedOn="{StaticResource {x:Type cc:PlaceHolderTextBox}}">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="PlaceholderHorizontalAlignment" Value="Left"/>
             <Setter Property="PlaceholderFontSize" Value="12"/>
@@ -42,28 +44,47 @@
             Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10, 0, 0, 0" VerticalAlignment="Center">
-                <Image Source="/AppIcon.ico" 
-                        Width="48" Height="48" 
-                        VerticalAlignment="Center"
-                        RenderOptions.BitmapScalingMode="Fant"  
-                        Margin="0, 0, 20, 0"/>
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Left" 
+                        Margin="10, 0, 0, 0" 
+                        VerticalAlignment="Center">
+
+                <Viewbox Width="48" Height="48" 
+                         VerticalAlignment="Center"
+                         Margin="0,0,20,0">
+                    <ContentControl Content="{StaticResource AppIcon}"/>
+                </Viewbox>
+
                 <TextBlock Text="Конвертер" 
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"
                            FontSize="24" 
                            FontWeight="Medium" 
-                           Foreground="{StaticResource AccentBrush}"/>
+                           Foreground="{DynamicResource AccentBrush}"/>
             </StackPanel>
-            
-            <StackPanel Grid.Column="1" 
+            <Button Grid.Column="1"
+                    x:Name="ThemeToggleButton"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Click="ThemeToggleButton_Click"
+                    Style="{StaticResource ThemeToggleButtonStyle}">
+                <Viewbox Width="20" Height="20">
+                    <Path x:Name="ThemeIcon"
+                          Data="{Binding Data, Source={StaticResource MoonIcon}}" 
+                          Fill="{DynamicResource AccentBrush}"
+                          Stretch="Uniform"/>
+                </Viewbox>
+            </Button>
+            <StackPanel Grid.Column="2" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
-
+                
                 <Button Name="MinimizeButton" 
                         Content="&#xE921;" 
                         Click="MinimizeButton_Click"
@@ -87,11 +108,11 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Border BorderBrush="{StaticResource AccentBrush}" 
+            <Border BorderBrush="{DynamicResource AccentBrush}" 
                     BorderThickness="2" 
                     CornerRadius="8" 
                     Padding="16" 
-                    Background="{StaticResource SecondaryBackgroundBrush}">
+                    Background="{DynamicResource SecondaryBackgroundBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -156,12 +177,12 @@
             </Border>
 
             <!--Результат-->
-            <Border Grid.Row="1" BorderBrush="{StaticResource AccentBrush}" 
+            <Border Grid.Row="1" BorderBrush="{DynamicResource AccentBrush}" 
                     Margin="0,16,0,0"
                     BorderThickness="2" 
                     CornerRadius="8" 
                     Padding="16" 
-                    Background="{StaticResource SecondaryBackgroundBrush}">
+                    Background="{DynamicResource SecondaryBackgroundBrush}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

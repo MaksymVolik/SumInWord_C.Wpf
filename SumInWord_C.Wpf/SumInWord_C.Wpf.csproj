@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Styles\ToolTipStyle.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="AppIcon.ico" />
   </ItemGroup>
 
@@ -32,6 +36,7 @@
 
   <ItemGroup>
     <Resource Include="Fonts\SEGMDL2.TTF" />
+    <Resource Include="Styles\ToolTipStyle.xaml" />
   </ItemGroup>
 
   <ItemGroup>

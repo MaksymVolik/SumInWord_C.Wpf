@@ -1,13 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SumInWord_C.Wpf.Interfaces;
 using SumInWord_C.Wpf.Properties;
+using SumInWord_C.Wpf.Services;
 using SumInWord_C.Wpf.ViewModels;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Shapes;
 
 namespace SumInWord_C.Wpf
 {
     public partial class MainWindow : Window
     {
+        private readonly IThemeService _themeService;
         public MainWindow()
         {
             try
@@ -22,7 +26,8 @@ namespace SumInWord_C.Wpf
                     this.Height = settings.WindowHeight;
                     this.Left = settings.WindowLeft;
                     this.Top = settings.WindowTop;
-                    if (settings.WindowState != WindowState.Minimized) this.WindowState = settings.WindowState;
+                    if (settings.WindowState != WindowState.Minimized)
+                        this.WindowState = settings.WindowState;
                 }
 
                 InitializeComponent();
@@ -39,11 +44,63 @@ namespace SumInWord_C.Wpf
                 // Якщо сталася помилка (наприклад, пошкоджений файл налаштувань),
                 // ініціалізуємо компоненти та дозволяємо WPF використовувати XAML-налаштування.
                 InitializeComponent();
-                MessageBox.Show($"Помилка завантаження налаштувань вікна. Використовуються стандартні параметри. Помилка: {ex.Message}", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Помилка завантаження налаштувань вікна. Використовуються стандартні параметри. Помилка: {ex.Message}",
+                    "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             finally
             {
+                _themeService = App.ServiceProvider.GetRequiredService<IThemeService>();
+
+                // Ініціалізуємо іконку теми
+                InitializeThemeIcon();
+
                 DataContext = App.ServiceProvider.GetRequiredService<SumViewModel>();
+            }
+        }
+
+        private void InitializeThemeIcon()
+        {
+            var currentTheme = _themeService.GetCurrentTheme();
+            UpdateThemeIcon(currentTheme);
+        }
+
+        private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_themeService == null) return;
+
+            // Отримуємо поточну тему
+            var currentTheme = _themeService.GetCurrentTheme();
+
+            // Циклічно перемикаємо: Dark → Light → DarkOrange → Dark
+            var nextTheme = currentTheme switch
+            {
+                Theme.Dark => Theme.Light,
+                Theme.Light => Theme.DarkOrange,
+                Theme.DarkOrange => Theme.Dark,
+                _ => Theme.Dark
+            };
+
+            // Застосовуємо нову тему
+            _themeService.ApplyTheme(nextTheme);
+
+            // Оновлюємо іконку
+            UpdateThemeIcon(nextTheme);
+        }
+
+        private void UpdateThemeIcon(Theme theme)
+        {
+            // Отримуємо Data з відповідної іконки
+            var iconResource = theme switch
+            {
+                Theme.Dark => "MoonIcon",
+                Theme.Light => "SunIcon",
+                Theme.DarkOrange => "FireIcon",
+                _ => "MoonIcon"
+            };
+
+            if (Application.Current.FindResource(iconResource) is Path iconPath)
+            {
+                ThemeIcon.Data = iconPath.Data;
             }
         }
 
@@ -92,7 +149,8 @@ namespace SumInWord_C.Wpf
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка збереження налаштувань вікна: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Помилка збереження налаштувань вікна: {ex.Message}",
+                    "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
